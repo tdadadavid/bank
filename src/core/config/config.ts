@@ -29,12 +29,7 @@ export const config = Object.freeze({
     ttl: parseInt(process.env.REDIS_TTL!),
   },
   db: {
-    dbUser: process.env.DATABASE_USER as string,
-    dbPassword: process.env.DATABASE_PASSWORD as string,
-    dbHost: process.env.DATABASE_HOST as string,
-    dbPort: process.env.DATABASE_PORT as string,
-    dbPool: process.env.DATABASE_POOL as string,
-    dbName: process.env.DATABASE_NAME as string,
+    connectionString: process.env.DATABASE_STRING as string,
   },
   rateLimit: {
     limit: process.env.WINDOW_RATE_LIMIT,
