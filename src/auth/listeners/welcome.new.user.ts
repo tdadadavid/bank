@@ -1,13 +1,9 @@
-import { Notification, mail } from "../../core";
+import { NewUserOptions, Notification, mail } from "../../core";
 import { join } from "node:path";
 
 export class WelcomeNewUserNotification extends Notification {
 
-    async handle(options: {
-        firstname: string,
-        lastname: string,
-        email: string,
-    }): Promise<void> {
+    async handle(options: NewUserOptions): Promise<void> {
         
         mail.send({
             fileName: join(process.cwd(), './templates/welcome-new-user.ejs'),
