@@ -1,4 +1,4 @@
-import { ControllerArgs, UnAuthorizedError, generateToken } from "../../core";
+import { ControllerArgs, UnAuthorizedError, compareHashedData, generateToken, sanitize } from "../../core";
 import { UserModel } from "../../users";
 import { config } from "../../core";
 import * as moment from "moment";
@@ -7,11 +7,11 @@ import * as moment from "moment";
 export const signIn = async ({ input }: ControllerArgs) => {
     const { email, password} = input;
     
-    const user = await UserModel.findOne({ email });
+    let user = await UserModel.findOne({ email });
     if(!user) throw new UnAuthorizedError("Invalid credentials provided");
 
-    //@ts-ignore
-    if(user.passwordEquals(password))
+    const passwordEquals = await compareHashedData(password, user.password);
+    if(!passwordEquals)
          throw new UnAuthorizedError("Invalid credentials provided");
 
     const now: Date = new Date();
@@ -28,6 +28,8 @@ export const signIn = async ({ input }: ControllerArgs) => {
         config.auth.refreshTokenExpiresIn
     );
     const refreshTokenExpiresIn = moment(now);
+
+    user = sanitize(user)
  
     return {
         code: 200,
@@ -36,8 +38,8 @@ export const signIn = async ({ input }: ControllerArgs) => {
             user,
             tokens: {
                 accessToken,
-                refreshToken,
                 accessTokenExpiresIn,
+                refreshToken,
                 refreshTokenExpiresIn,
             }       
         }
