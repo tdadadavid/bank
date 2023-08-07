@@ -1,40 +1,45 @@
-import { ControllerArgs } from "src/core";
+import { ControllerArgs, UnAuthorizedError, generateToken } from "../../core";
+import { UserModel } from "../../users";
+import { config } from "../../core";
+import * as moment from "moment";
 
 
 export const signIn = async ({ input }: ControllerArgs) => {
     const { email, password} = input;
-  
-    // const admin = (await Admin.scope("withPassword")
-    //     .findOne({ where: { email } }))?.toJSON()
-    // if (!admin)
-    //     throw new UnAuthorizedError("Invalid credentials provided");
-
-    // const isEqual = await compareHashedData(password, admin.password!);
-    // if(!isEqual) throw new UnAuthorizedError("Incorrect credentials provided");
-
-    // // check if the admin role.
-    // const role = admin.role !== Role.SuperAdmin ? Role.Admin : Role.SuperAdmin;
-
     
-    // const accessToken = generateToken(
-    //     { id: admin.id, role   },
-    //     config.accessTokenSecret,
-    //     parseInt(config.accessTokenExpiresIn)
-    // );
-    // const refreshToken = generateToken(
-    //     { id: admin.id, role },
-    //     config.refreshTokenSecret,
-    //     parseInt(config.refreshTokenExpiresIn)
-    // );
+    const user = await UserModel.findOne({ email });
+    if(!user) throw new UnAuthorizedError("Invalid credentials provided");
+
+    //@ts-ignore
+    if(user.passwordEquals(password))
+         throw new UnAuthorizedError("Invalid credentials provided");
+
+    const now: Date = new Date();
+    const accessToken = generateToken(
+        { id: user.id  },
+        config.auth.accessTokenSecret,
+        config.auth.accessTokenExpiresIn
+    );
+    const accessTokenExpiresIn = moment(now);
+
+    const refreshToken = generateToken(
+        { id: user.id },
+        config.auth.refreshTokenSecret,
+        config.auth.refreshTokenExpiresIn
+    );
+    const refreshTokenExpiresIn = moment(now);
  
     return {
         code: 200,
         message: 'You are logged in',
         data: {
-            accessToken: "access token",
-            refreshToken: "refresh token",
-            accessTokenExpiresIn: "Tomorow",
-            refreshTokenExpiresIn: "Tomorrow"
+            user,
+            tokens: {
+                accessToken,
+                refreshToken,
+                accessTokenExpiresIn,
+                refreshTokenExpiresIn,
+            }       
         }
     };
 }
