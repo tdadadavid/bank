@@ -12,7 +12,7 @@ export class AppCacheManager extends Redis {
     dispatch("cache:connection:established");
   }
 
-  put = async <T extends (string | number ) = string>(
+  put = async <T extends (string | number) = string>(
     key: string,
     values: T,
     ttl?: number

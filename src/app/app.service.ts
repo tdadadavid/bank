@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as cors from "cors";
+//@ts-ignore
 import helmet from "helmet";
 import * as morgan from "morgan";
 import * as compression from "compression";
