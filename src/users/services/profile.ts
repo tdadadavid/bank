@@ -11,9 +11,7 @@ export const viewProfile = async ({ user }: ControllerArgs) => {
     let accounts = await AccountModel.find({ owner: user?.id });
 
     profile = sanitize(profile);
-    accounts = accounts.map((account: Account) => {
-        return sanitize(account);
-    })
+    accounts = accounts.map(sanitize)
 
     return {
         code: HttpStatus.OK,
