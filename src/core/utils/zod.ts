@@ -4,6 +4,6 @@ import { BadRequestError } from "../errors";
 export const joiValidate = (schema: Schema, obj: any) => {
   const { error } = schema.validate(obj);
   if (error) {
-    throw new BadRequestError("Validation error");
+    throw new BadRequestError(error.message);
   }
 };

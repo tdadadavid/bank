@@ -15,7 +15,6 @@ const accountSchema: Schema = new Schema<Account>(
         account_id: {
             type: String,
             required: true,
-            default: uuid(),
         },
         amount: {
             type: String,

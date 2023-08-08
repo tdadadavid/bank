@@ -1,1 +1,3 @@
-export declare const initializeDbConnection: () => Promise<void>;
+import mongoose from "mongoose";
+declare const initializeDbConnection: () => Promise<void>;
+export { initializeDbConnection, mongoose };

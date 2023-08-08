@@ -5,7 +5,7 @@ const errors_1 = require("../errors");
 const joiValidate = (schema, obj) => {
     const { error } = schema.validate(obj);
     if (error) {
-        throw new errors_1.BadRequestError("Validation error");
+        throw new errors_1.BadRequestError(error.message);
     }
 };
 exports.joiValidate = joiValidate;
