@@ -1,4 +1,4 @@
-export type ErrorDetailsDescriptor = Array<{
+export declare type ErrorDetailsDescriptor = Array<{
     message: string;
     path: String;
 }> | null;
