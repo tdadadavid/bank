@@ -19,7 +19,7 @@ const signIn = async ({ input }) => {
     const refreshTokenExpiresIn = moment(now).add(+core_1.config.auth.refreshTokenExpiresIn, "hours");
     const refreshToken = (0, core_1.generateToken)({ id: user.id }, core_1.config.auth.refreshTokenSecret, refreshTokenExpiresIn.unix());
     user = (0, core_1.sanitize)(user);
-    await app_1.cache.put(`user:${user === null || user === void 0 ? void 0 : user.id}`, refreshToken);
+    await app_1.cache.put(`user:${user === null || user === void 0 ? void 0 : user.id}`, 'refreshToken', refreshToken);
     return {
         code: core_1.HttpStatus.OK,
         message: 'You are logged in',

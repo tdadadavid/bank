@@ -32,7 +32,7 @@ export const signIn = async ({ input }: ControllerArgs) => {
 
     user = sanitize(user)
 
-    await cache.put(`user:${user?.id}`, refreshToken)
+    await cache.put(`user:${user?.id}`,'refreshToken', refreshToken)
  
     return {
         code: HttpStatus.OK,

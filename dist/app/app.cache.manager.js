@@ -8,8 +8,8 @@ class AppCacheManager extends ioredis_1.Redis {
     constructor(options) {
         super(options);
         this.TIME_TO_LIVE = core_1.config.cache.ttl;
-        this.put = async (key, values, ttl) => {
-            this.set(key, values, "EX", ttl || this.TIME_TO_LIVE);
+        this.put = async (key, field, values, ttl) => {
+            this.hsetnx(key, field, values);
         };
         this.read = async (key) => {
             const value = await this.get(key);
@@ -34,6 +34,10 @@ class AppCacheManager extends ioredis_1.Redis {
         this.parse = (val) => {
             return JSON.parse(val);
         };
+        super.on('close', () => {
+            this.quit();
+            core_1.logger.debug("Cache connection closed");
+        });
         (0, app_events_1.dispatch)("cache:connection:established");
     }
 }

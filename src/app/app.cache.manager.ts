@@ -9,15 +9,20 @@ export class AppCacheManager extends Redis {
 
   constructor(options: RedisOptions) {
     super(options);
+    super.on('close', () => {
+      this.quit();
+      logger.debug("Cache connection closed")
+    })
     dispatch("cache:connection:established");
   }
 
   put = async <T extends (string | number) = string>(
     key: string,
+    field: string,
     values: T,
     ttl?: number
   ): Promise<void> => {
-    this.set(key, values, "EX", ttl || this.TIME_TO_LIVE);
+    this.hsetnx(key,  field , values);
   };
 
   read = async <T extends any = any>(key: string): Promise<T> => {

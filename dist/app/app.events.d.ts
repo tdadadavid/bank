@@ -3,12 +3,12 @@ declare const dispatch: <T extends "app:up" | "cache:connection:established" | "
     "cache:connection:established": [];
     "auth:new:user": [options: import("../core").NewUserOptions];
     "create:new:account": [options: import("../core").CreateNewUserAccountOptions];
-    "transfer:failed": [import("../transactions").TransferFailedOptions];
-    "transfer:success": [import("../transactions").TransferSuccedOptions];
+    "transfer:failed": [];
+    "transfer:success": [];
     "transfer:reciever": [];
     "transfer:sender": [];
     "deposit:made": [import("../transactions").DepositMadeOptions];
-    "withdraw:made": [import("../transactions").WithdrawalMade];
+    "withdraw:made": [];
     "event:registeration:succesful": [];
 }[T]) => Promise<void>;
 export { dispatch };
