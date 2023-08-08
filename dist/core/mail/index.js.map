@@ -1,1 +1,0 @@
-{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../src/core/mail/index.ts"],"names":[],"mappings":";;AAAA,wCAAoC;AAIpC,MAAM,IAAI;IAAV;QACS,SAAI,GAAG,KAAK,EAAE,OAAe,EAAiB,EAAE;YACrD,gBAAM,CAAC,IAAI,CAAC;gBACV,IAAI,EAAE,OAAO,CAAC,IAAI;gBAClB,OAAO,EAAE,OAAO,CAAC,OAAO;aACzB,CAAC,CAAA;QACJ,CAAC,CAAC;IACJ,CAAC;CAAA;AAED,kBAAe,IAAI,IAAI,EAAE,CAAC"}
