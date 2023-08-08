@@ -19,25 +19,15 @@ export interface TokenUser {
     id: string;
     role: string;
 }
-export interface NewProjectProposal {
-    readonly email: string;
-    readonly project: string;
-    readonly estimatedCost: string;
-    readonly artist: string;
-    readonly date: string;
-}
-export interface AdminProjectDecisionOptions {
-    name: string;
+export interface NewUserOptions {
+    firstname: string;
+    lastname: string;
     email: string;
-    status: "Approved" | "Rejected";
-    project: string;
-    accepted_at?: string;
-    rejected_at?: string;
 }
-export interface NewContributionNotificationOptions {
-    emails: string[];
-    amount: number;
-    when: string;
+export interface CreateNewUserAccountOptions {
+    owner: string;
+    currency: string;
+    phoneNumber: string;
 }
 export interface IEMAIL {
     readonly fileName: string;

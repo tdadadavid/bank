@@ -1,7 +1,7 @@
-import { generateRandStr } from "../../core";
+import {  hashData, compareHashedData} from "../../core";
 
 import { model, Schema } from "mongoose";
-import { compareHashedData, hashData } from "../../core";
+import { uuid } from "uuidv4";
 
 export interface User {
     id: string;
@@ -9,6 +9,7 @@ export interface User {
     lastname: string;
     othername: string | null;
     email: string;
+    phoneNumber: string;
     password: string
 }
 
@@ -19,7 +20,7 @@ const userSchema = new Schema<User>(
             type: String,
             required: true,
             unique: true,
-            default: generateRandStr(),
+            default: uuid(),
         },
         firstname: {
             type: String,
@@ -32,6 +33,11 @@ const userSchema = new Schema<User>(
         othername: {
             type: String,
             required: false,
+        },
+        phoneNumber: {
+            type: String,
+            required: true,
+            unique: true
         },
         email: {
             type: String,
@@ -60,6 +66,6 @@ userSchema.pre('save', async function (next) {
 });
 
 
-userSchema.methods.comparePassword = function(plain: string) {
+userSchema.methods.passwordEquals = function(plain: string) {
     return compareHashedData(plain, this.password);
 }

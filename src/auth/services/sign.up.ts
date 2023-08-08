@@ -1,37 +1,49 @@
 import { UserModel } from "../../users";
 import { dispatch } from "../../app";
-import { ConflictError, ControllerArgs, HttpStatus, hashData, sanitize } from "../../core";
+import { ConflictError, ControllerArgs,NewUserOptions, CreateNewUserAccountOptions, HttpStatus, hashData, sanitize } from "../../core";
 
 
 export const signUp = async ({ input }: ControllerArgs) => {
-    const { email, firstname, lastname, othername, password } =  input;
+    const { email, firstname, lastname, othername, password, phoneNumber } =  input;
 
-    const userExists = await UserModel.findOne({ email });
-    if(userExists) throw new ConflictError("User with email already exists");
+    const userExists = await UserModel.findOne({ 
+        $or: [
+            { email },
+            { phoneNumber }
+        ]
+     });
+    if(userExists) throw new ConflictError("User with email/phoneNumber already exists");
 
     const hashPassword = await hashData(password);
 
-    const newAdmin = await UserModel.create({
+    const user = await UserModel.create({
         firstname,
         lastname,
         email,
         othername,
+        phoneNumber,
         password: hashPassword
     })
-    await newAdmin.save();
+    
+    const data = sanitize(user);
 
-    const data = sanitize(newAdmin);
-
-    const newUserNotificationOptions = {
-        firstname: newAdmin.firstname,
-        lastname: newAdmin.lastname,
-        email: newAdmin.email,
+    const newUserNotificationOptions: NewUserOptions = {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
     }
     dispatch("auth:new:user", newUserNotificationOptions);
 
+
+    dispatch("create:new:account", {
+        currency: "GBP",
+        owner: user.id,
+        phoneNumber: user.phoneNumber,
+    })
+
     return {
         code: HttpStatus.CREATED,
-        message: "User registered successfully",
+        message: "User registered successfully. Check your profile to see your newly created account.",
         data,
     }
 }

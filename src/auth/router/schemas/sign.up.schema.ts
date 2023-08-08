@@ -8,6 +8,7 @@ export const signUpSchema: ValidationSchema = {
         lastname: Joi.string().required(),
         othername: Joi.string().required(),
         email: Joi.string().email().required(),
+        phoneNumber: Joi.string().required(),
         password: Joi.string().min(8).max(18).required(),
     })
 }

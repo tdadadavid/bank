@@ -23,4 +23,5 @@ __exportStar(require("./logging"), exports);
 __exportStar(require("./middlewares"), exports);
 var mail_1 = require("./mail");
 Object.defineProperty(exports, "mail", { enumerable: true, get: function () { return mail_1.default; } });
+__exportStar(require("./notifications"), exports);
 //# sourceMappingURL=index.js.map

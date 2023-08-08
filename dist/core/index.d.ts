@@ -5,3 +5,4 @@ export * from "./utils";
 export * from "./logging";
 export * from "./middlewares";
 export { default as mail } from "./mail";
+export * from "./notifications";

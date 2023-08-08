@@ -1,12 +1,14 @@
 import { Request, Router, Response } from "express";
 
 import { HttpStatus } from "../core";
-import { authRouter } from "../auth";
+import { authRouter, currentUser } from "../auth";
+import { userRouter } from "../users";
 
 
 export const appRouter = Router();
 
 appRouter.use("/auth", authRouter);
+appRouter.use("/users", currentUser, userRouter)
 
 
 

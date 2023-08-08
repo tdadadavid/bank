@@ -26,6 +26,9 @@ export declare const config: Readonly<{
     db: {
         connectionString: string;
     };
+    fixer: {
+        key: string;
+    };
     rateLimit: {
         limit: string | undefined;
     };

@@ -31,6 +31,9 @@ exports.config = Object.freeze({
     db: {
         connectionString: process.env.DATABASE_STRING,
     },
+    fixer: {
+        key: process.env.FIXER_API_KEY,
+    },
     rateLimit: {
         limit: process.env.WINDOW_RATE_LIMIT,
     },

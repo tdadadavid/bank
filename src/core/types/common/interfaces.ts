@@ -28,6 +28,12 @@ export interface NewUserOptions {
   email: string;
 }
 
+export interface CreateNewUserAccountOptions {
+  owner: string;
+  currency: string;
+  phoneNumber: string;
+}
+
 export interface IEMAIL {
   readonly fileName: string;
   readonly data: Record<any, unknown>;
