@@ -1,9 +1,9 @@
 import { UserModel } from "../../users";
-import { ControllerArgs, HttpStatus } from "../../core";
+import { ControllerArgs, HttpStatus, sanitize } from "../../core";
 import { Transaction } from "../models";
 
 
-export const seeTranssactions = async ({ user }: ControllerArgs) => {
+export const seeTransactions = async ({ user }: ControllerArgs) => {
 
     const userInfo = await UserModel.findOne({ id: user?.id });
     const transactions = await Transaction.find({ $or: [
@@ -15,7 +15,7 @@ export const seeTranssactions = async ({ user }: ControllerArgs) => {
         code: HttpStatus.OK,
         message: "All Transactions",
         data: {
-            transactions,
+            transactions: transactions.map(sanitize),
         }
     }
 }   

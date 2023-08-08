@@ -19,7 +19,7 @@ export const withdraw = async ({ input, user }: ControllerArgs) => {
     const transaction = await Transaction.create({
         transaction_id: randomUUID().toString(),
         amount,
-        source_account: account.id,
+        source_account: account.account_number,
         type: "withdraw",
     });
 

@@ -19,7 +19,7 @@ export const deposit = async ({ input, user }: ControllerArgs) => {
     const transaction = await Transaction.create({
         transaction_id: randomUUID().toString(),
         amount,
-        source_account: account.id,
+        source_account: account.account_number,
         type: "deposit",
     });
 
@@ -28,7 +28,7 @@ export const deposit = async ({ input, user }: ControllerArgs) => {
 
     return {
         code: HttpStatus.OK,
-        message: "TRrasaction[Deposit] successfully made",
+        message: "Trasaction[Deposit] successfully made",
         data: {
             account: sanitize(account),
             transaction: sanitize(transaction),

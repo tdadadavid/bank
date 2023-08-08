@@ -6,7 +6,6 @@ const core_1 = require("../../core");
 const users_1 = require("../../users");
 const app_1 = require("../../app");
 const signIn = async ({ input }) => {
-    console.log(input);
     const { email, password } = input;
     let user = await users_1.UserModel.findOne({ email });
     if (!user)

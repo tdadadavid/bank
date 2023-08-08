@@ -37,8 +37,8 @@ export const transfer = async ({ input, user }: ControllerArgs) => {
             transaction_id: randomUUID().toString(),
             amount: +amount,
             type: "transfer",
-            source_account: sourceAccount!.id,
-            destination_account: destinationAccount.id,
+            source_account: sourceAccount!.account_number,
+            destination_account: destinationAccount.account_number,
         })
 
         //TODO: dispatch transfer event to sender

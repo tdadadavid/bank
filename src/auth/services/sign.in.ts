@@ -6,7 +6,6 @@ import { cache } from "../../app";
 
 
 export const signIn = async ({ input }: ControllerArgs) => {
-    console.log(input);
     const { email, password} = input;
     
     let user = await UserModel.findOne({ email });
