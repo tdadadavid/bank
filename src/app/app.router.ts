@@ -15,6 +15,8 @@ appRouter.get("/health", (_: Request, res: Response) => {
   });
 });
 
-appRouter.use("/auth", authRouter);
-appRouter.use("/users", currentUser, userRouter)
-appRouter.use("/transactions", currentUser, transactionRouter);
+appRouter
+  .use("/auth", authRouter)
+  .use(currentUser)
+  .use("/users", userRouter)
+  .use("/transactions", transactionRouter)
