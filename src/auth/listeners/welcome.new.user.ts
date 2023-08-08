@@ -1,7 +1,7 @@
 import { NewUserOptions, Notification, mail } from "../../core";
 import { join } from "node:path";
 
-export class WelcomeNewUserNotification extends Notification {
+class WelcomeNewUserNotification extends Notification {
 
     async handle(options: NewUserOptions): Promise<void> {
         
@@ -16,3 +16,5 @@ export class WelcomeNewUserNotification extends Notification {
         })
     }
 }
+
+export const welcomeNewUserNotification = new WelcomeNewUserNotification
