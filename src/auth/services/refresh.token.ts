@@ -1,39 +1,42 @@
 import { JwtPayload } from "jsonwebtoken";
-import { ControllerArgs, ForbiddenError, generateToken, verifyToken, config } from "../../core";
+
+import { ControllerArgs, ForbiddenError, generateToken, verifyToken, config, HttpStatus, UnAuthorizedError } from "../../core";
 import { BlacklistToken } from "../models";
+import { cache } from "../../app";
+import moment from "moment";
 
 
 
-export const refreshToken = async ({ query } : ControllerArgs) => {
+export const refreshToken = async ({ query, user } : ControllerArgs) => {
     const { token } = query;
 
-    let tokenDetails;
     try {
-        tokenDetails = verifyToken(token, config.auth.refreshTokenSecret);
+        await verifyToken(token, config.auth.refreshTokenSecret);
     }catch(err: any){
         throw new ForbiddenError("Invalid or Expired token");
     }
 
-    if (!tokenDetails)
-        throw new ForbiddenError("Invalid or Expired token");
 
-    const isBlackListed =
-        await BlacklistToken.findOne({ where: { token } });
-    if (isBlackListed) throw new ForbiddenError("Jwt revoked");
+    const tokenPayload = await cache.read<JwtPayload>(`user:${user?.id}`);
+    if (!tokenPayload) 
+        throw new UnAuthorizedError("Tokens revoked");
 
-    let tokenPayload = tokenDetails as JwtPayload;
+    const now  = new Date()
+    const expiresIn = moment(now).add(+config.auth.accessTokenExpiresIn, "minutes");
     const accessToken = generateToken(
         { id: tokenPayload.id  },
         config.auth.accessTokenSecret,
-        config.auth.accessTokenExpiresIn
+        expiresIn.unix()
     );
-    
+
+
     return {
-        code: 200,
-        message: "New access token created successfully",
+        code: HttpStatus.OK,
+        message: "Access token",
         data: {
             accessToken,
-            expiresIn: "expires in",
-        },
-    };
+            expiresIn,
+        }
+    }
+    
 }

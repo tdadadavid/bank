@@ -1,7 +1,8 @@
-import { ControllerArgs, UnAuthorizedError, compareHashedData, generateToken, sanitize } from "../../core";
-import { UserModel } from "../../users";
-import { config } from "../../core";
 import * as moment from "moment";
+
+import { ControllerArgs, HttpStatus, UnAuthorizedError, compareHashedData, generateToken, sanitize, config } from "../../core";
+import { UserModel } from "../../users";
+import { cache } from "../../app";
 
 
 export const signIn = async ({ input }: ControllerArgs) => {
@@ -14,25 +15,27 @@ export const signIn = async ({ input }: ControllerArgs) => {
     if(!passwordEquals)
          throw new UnAuthorizedError("Invalid credentials provided");
 
-    const now: Date = new Date();
+    const now  = new Date()
+    const accessTokenExpiresIn = moment(now).add(+config.auth.accessTokenExpiresIn, "minutes");
     const accessToken = generateToken(
         { id: user.id  },
         config.auth.accessTokenSecret,
-        config.auth.accessTokenExpiresIn
+        accessTokenExpiresIn.unix(),
     );
-    const accessTokenExpiresIn = moment(now);
 
+    const refreshTokenExpiresIn = moment(now).add(+config.auth.refreshTokenExpiresIn, "hours")
     const refreshToken = generateToken(
         { id: user.id },
         config.auth.refreshTokenSecret,
-        config.auth.refreshTokenExpiresIn
+        refreshTokenExpiresIn.unix()
     );
-    const refreshTokenExpiresIn = moment(now);
 
     user = sanitize(user)
+
+    await cache.put(`user:${user?.id}`, refreshToken)
  
     return {
-        code: 200,
+        code: HttpStatus.OK,
         message: 'You are logged in',
         data: {
             user,

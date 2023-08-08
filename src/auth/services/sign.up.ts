@@ -1,6 +1,6 @@
 import { UserModel } from "../../users";
 import { dispatch } from "../../app";
-import { ConflictError, ControllerArgs, hashData, sanitize } from "../../core";
+import { ConflictError, ControllerArgs, HttpStatus, hashData, sanitize } from "../../core";
 
 
 export const signUp = async ({ input }: ControllerArgs) => {
@@ -30,7 +30,7 @@ export const signUp = async ({ input }: ControllerArgs) => {
     dispatch("auth:new:user", newUserNotificationOptions);
 
     return {
-        code: 201,
+        code: HttpStatus.CREATED,
         message: "User registered successfully",
         data,
     }
