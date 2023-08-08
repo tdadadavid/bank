@@ -3,6 +3,7 @@ import { ConflictError, ControllerArgs, HttpStatus, logger, sanitize } from "../
 import { Transaction } from "../models";
 import { mongoose } from "../../core";
 import { randomUUID } from "node:crypto";
+import { dispatch } from "../../app";
 
 
 export const transfer = async ({ input, user }: ControllerArgs) => {
@@ -41,14 +42,23 @@ export const transfer = async ({ input, user }: ControllerArgs) => {
             destination_account: destinationAccount.account_number,
         })
 
+        await transactionSession.commitTransaction();
+
+
         //TODO: dispatch transfer event to sender
+        dispatch("transfer:reciever") // send to the recipient email address
 
         //TODO: dispatch transfer event to receiver
+        dispatch("transfer:sender"); // send to the sender email address
 
-        await transactionSession.commitTransaction();
+        const transferSuccededNotificationOptions = {
+            
+        }
+        dispatch("transfer:success")
 
     }catch(err: unknown){   
         logger.error(err);
+        dispatch("transfer:failed",)
         await transactionSession.abortTransaction();
         throw err;
     }

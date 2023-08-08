@@ -1,3 +1,4 @@
+import { dispatch } from "../../app";
 import { AccountModel } from "../../accounts";
 import { ConflictError, ControllerArgs, HttpStatus, sanitize } from "../../core";
 import { Transaction } from "../models";
@@ -23,8 +24,7 @@ export const withdraw = async ({ input, user }: ControllerArgs) => {
         type: "withdraw",
     });
 
-    //TODO: dispatch deposit mail event.
-    // dispatch
+    dispatch("withdraw:made")
 
     return {
         code: HttpStatus.OK,
