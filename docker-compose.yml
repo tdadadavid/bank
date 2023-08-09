@@ -47,7 +47,7 @@ services:
     hostname: nginx
     container_name: nginx
     ports:
-      - 80:${NGINX_PORT}
+      - "80:80"
     depends_on:
       - bank_api
     networks:
