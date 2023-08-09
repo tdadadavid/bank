@@ -9,11 +9,13 @@ export class AppCacheManager extends Redis {
 
   constructor(options: RedisOptions) {
     super(options);
+    super.connect().then(
+      () => dispatch("cache:connection:established")
+    )
     super.on('close', () => {
       this.quit();
       logger.debug("Cache connection closed")
     })
-    dispatch("cache:connection:established");
   }
 
   put = async <T extends (string | number) = string>(

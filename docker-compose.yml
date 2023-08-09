@@ -6,6 +6,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - DATABASE_STRING='mongodb://bank_db/nosh?authSource=admin'
+      - REDIS_HOST=bank_cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=redispassword
+      - REDIS_TTL=10000000
+      - ACCESS_TOKEN_SECRET='crazy secret'
+      - ACCESS_TOKEN_SECRET_LIFE_SPAN=5
+      - REFRESH_TOKEN_SECRET='crazy secret'
+      - REFRESH_TOKEN_SECRET_LIFE_SPAN=10
     networks:
       - netty
     restart: unless-stopped
@@ -33,6 +43,8 @@ services:
   bank_cache:
     image: redis:6.2-alpine
     container_name: "bank_cache"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
     ports:
       - "6379:6379"
     restart: "always"
