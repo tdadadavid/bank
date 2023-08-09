@@ -41,7 +41,7 @@ services:
 
 networks:
   netty:
-    driver: default
+    external: true
 volumes:
   appCache:
   cache:
