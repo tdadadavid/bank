@@ -1,9 +1,9 @@
 import { Request, Router, Response } from "express";
 
-import { HttpStatus } from "../core";
+import { HttpStatus, controllerHandler } from "../core";
 import { authRouter, currentUser } from "../auth";
 import { userRouter } from "../users";
-import { transactionRouter } from "../transactions";
+import { seeCurrencies, transactionRouter } from "../transactions";
 
 
 export const appRouter = Router();
@@ -16,6 +16,7 @@ appRouter.get("/health", (_: Request, res: Response) => {
 });
 
 appRouter
+  .get('/currencies', controllerHandler.handle(seeCurrencies))
   .use("/auth", authRouter)
   .use(currentUser)
   .use("/users", userRouter)

@@ -33,7 +33,7 @@ export const deposit = async ({ input, user }: ControllerArgs) => {
 
     return {
         code: HttpStatus.OK,
-        message: "Trasaction[Deposit] successfully made",
+        message: "Transaction[Deposit] successfully made",
         data: {
             account: sanitize(account),
             transaction: sanitize(transaction),
