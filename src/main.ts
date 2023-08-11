@@ -1,7 +1,7 @@
 import { startApp } from "./app";
 import { gracefullyShutdown, initializeDbConnection } from "./core";
 
-//TODO: work on the docker, then setup kubernetes for it.
+//# begin work on testing and kubernetes integration
 
 initializeDbConnection()
     .then(startApp)

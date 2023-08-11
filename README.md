@@ -98,7 +98,9 @@ npm run start:dev
 
 ## 6. Via Docker 
 ```bash
-    coming soon
+    docker run dockerrundavid/nosh:v1
+
+    localhost:8080/v1.nosh/health
 ```
 
 ## 7. Via Kubernetes 

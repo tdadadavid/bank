@@ -1,50 +1,56 @@
-version: '3.0'
+version: '3'
+
 services:
+
   bank_api:
-    image: node
-    container_name: "bank_api"
     build:
       context: .
-      dockerfile: Dockerfile
-    networks:
-      - netty
-    restart: always
+      dockerfile: Dockerfile # is
+    hostname: bank_api
+    env_file:
+      - docker.env
     ports:
-      - "4000:4000"
-    depends_on:
-      - bank_db
-      - bank_cache
-  
+      - "4000:4000" ## add depends_on 
+
   bank_db:
-    image: postgres
-    container_name: "bank_db"
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD", "pg_isready"]
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
-    restart: "always"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-  
+      image: mongo:latest
+      restart: always
+      hostname: bank_db
+      environment:
+        - MONGO_INITDB_ROOT_USERNAME=root
+        - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+        - MONGO_INITDB_DATABASE=nosh
+      ports:
+        - "27017:27017"
+      volumes:
+        - mongo_data:/data:db
+    
   bank_cache:
-    image: redis:6.2-alpine
-    container_name: "bank_cache"
+    image: redis:latest
+    restart: "always"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
     ports:
       - "6379:6379"
-    restart: "always"
     volumes:
-      - cache:/data
+      - cache_data:/data
+
+    
+  proxy:
+    build:
+      context: ./infra
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - bank_api
+    volumes:
+      - nginx_data:/var/cache/
+
 
 networks:
-  netty:
-    driver: default
+  default:
 volumes:
-  appCache:
-  cache:
-    driver: local
-  pgdata:  
-  
+  cache_data:
+  mongo_data:
+  nginx_data:
