@@ -10,16 +10,17 @@ services:
     env_file:
       - docker.env
     ports:
-      - "4000:4000" ## add depends_on 
+      - "4000:4000"
+    depends_on:
+      - bank_db
+      - bank_cache
 
   bank_db:
       image: mongo:latest
       restart: always
       hostname: bank_db
-      environment:
-        - MONGO_INITDB_ROOT_USERNAME=root
-        - MONGO_INITDB_ROOT_PASSWORD=rootpassword
-        - MONGO_INITDB_DATABASE=nosh
+      env_file:
+        - docker.env
       ports:
         - "27017:27017"
       volumes:
@@ -28,8 +29,8 @@ services:
   bank_cache:
     image: redis:latest
     restart: "always"
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
+    env_file:
+      - docker.env
     ports:
       - "6379:6379"
     volumes:
