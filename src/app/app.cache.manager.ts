@@ -8,12 +8,14 @@ export class AppCacheManager extends Redis {
   public readonly TIME_TO_LIVE: number = config.cache.ttl;
 
   constructor(options: RedisOptions) {
-    super(options);
+    super(options)
+    
+     dispatch("cache:connection:established")
+
     super.on('close', () => {
       this.quit();
       logger.debug("Cache connection closed")
     })
-    dispatch("cache:connection:established");
   }
 
   put = async <T extends (string | number) = string>(

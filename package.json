@@ -46,7 +46,7 @@
   "main": "main.js",
   "scripts": {
     "clean": "rimraf ./dist",
-    "start": "npm run clean && tsc -p tsconfig.json && NODE_ENV=production && node dist/main",
+    "start:prod": "npm run clean && tsc -p tsconfig.json && NODE_ENV=production && node dist/main",
     "start:dev": "npm run clean && tsc -p tsconfig.json && NODE_ENV=development nodemon dist/main"
   },
   "author": "King David",
