@@ -98,7 +98,7 @@ npm run start:dev
 
 ## 6. Via Docker 
 ```bash
-    coming soon
+    docker run dockerrundavid/nosh:v1
 ```
 
 ## 7. Via Kubernetes 
