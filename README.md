@@ -100,7 +100,7 @@ npm run start:dev
 ```bash
     docker run dockerrundavid/nosh:v1
 
-    localhost:8080/v1.nosh
+    localhost:8080/v1.nosh/health
 ```
 
 ## 7. Via Kubernetes 
