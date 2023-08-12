@@ -15,7 +15,7 @@ export class HttpHelper {
         return this.makeRequest<T>(url, "POST");
     }
 
-    appendHeaders = (key: string, value: string | any) => {
+    appendHeader = (key: string, value: string | any) => {
         this.headers[key] = value;
         return this;
     }
