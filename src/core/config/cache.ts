@@ -7,4 +7,4 @@ export const cacheOptions: RedisOptions = {
   host: config.cache.host,
 };
 
-// ioredis-mock
+// ioredis-mock for testing.
