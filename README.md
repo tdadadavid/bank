@@ -44,7 +44,7 @@ You can try out the live demo of Anony-Memo at [https://your-demo-url.com](https
 
 ## Installation
 
-To run Anony-Memo locally, follow these steps:
+To run Nosh locally, follow these steps:
 
 ## 1. Clone the repository:
 
