@@ -1,4 +1,4 @@
-import Redis, { RedisOptions } from "ioredis";
+import { RedisOptions } from "ioredis";
 
 import { config } from "./config";
 
