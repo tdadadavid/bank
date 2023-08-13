@@ -1,4 +1,4 @@
-import Redis, { RedisOptions } from "ioredis";
+import { RedisOptions } from "ioredis";
 
 import { config } from "./config";
 
@@ -7,4 +7,4 @@ export const cacheOptions: RedisOptions = {
   host: config.cache.host,
 };
 
-// ioredis-mock
+// ioredis-mock for testing.

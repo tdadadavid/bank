@@ -27,8 +27,9 @@ export class AppCacheManager extends Redis {
     this.hsetnx(key,  field , values);
   };
 
-  read = async <T extends any = any>(key: string): Promise<T> => {
+  read = async <T extends any = any>(key: string): Promise<T | null> => {
     const value: string | null = await this.get(key);
+    if(!value) return null;
     return await this.parse<T>(value!);
   };
 

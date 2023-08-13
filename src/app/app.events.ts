@@ -15,15 +15,15 @@ class AppEventManager extends Event {
   private register = async (
     eventListenerMap: EventListenerMap,
   ): Promise<void> => {
-    Object.keys(eventListenerMap).forEach((key: string) => {
-      const listeners: Listener[] | Listener = eventListenerMap[key];
+    Object.keys(eventListenerMap).forEach((event: string) => {
+      const listeners: Listener[] | Listener = eventListenerMap[event];
 
       if (Array.isArray(listeners)) {
         listeners.forEach((listener: Listener) => {
-          this.on(key, listener);
+          this.on(event, listener);
         });
       } else {
-        this.on(key, listeners);
+        this.on(event, listeners);
       }
     });
   };

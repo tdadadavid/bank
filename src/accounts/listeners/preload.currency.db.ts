@@ -24,19 +24,18 @@ export class RegisterCurrencies {
         try {
             logger.info("Currencies have not been registered");
 
-            const currenciesResp = await HttpClient
-                .appendHeaders('apiKey', config.fixer.key)
+            const currencies = await HttpClient
+                .appendHeader('apiKey', config.fixer.key)
                 .get<CurrenciesData>(EXCHANGE_RATE_LINKS.CURRENCIES);
             
-            const currencies = Object.keys(currenciesResp!.symbols);
-            const data = currencies.map((currency: string) => {
+            const data = Object.keys(currencies!.symbols).map((currency: string) => {
                 return {
                     id: uuid(),
                     code: currency,
-                    currency: currenciesResp!.symbols[currency] + String.fromCharCode(Math.random()*10) //sieria lonne is duplicated.
+                    currency: currencies!.symbols[currency] 
                 }
-            })
-            await Currency.insertMany(data);
+            });
+            await Currency.insertMany(data, { ordered: false });
             
             logger.info("Successfully registered currencies");
             
